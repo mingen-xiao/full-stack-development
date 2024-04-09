@@ -4,10 +4,15 @@ import React from "react";
 //  2. Install library 'axios'
 import axios from "axios";
 import { useEffect, useState } from "react";
+// "useNavigate": A hook to allow to navigate & redirect current route to other routes throughout the application
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   // "useState": A list containing all the posts that received from the API request
   const [listOfPosts, setListOfPosts] = useState([]); // Set an array because the API request returns a list
+
+  // Use "useNavigate()" to navigate & redirect current route to other routes
+  let navigate = useNavigate();
 
   // "useEffect": To fetch all the lists of posts
   useEffect(() => {
@@ -23,9 +28,17 @@ function Home() {
   return (
     <div>
       {listOfPosts.map((value, key) => {
-        // "map": map all the data in the lists
+        // "map": map all the data in every Post in the List
         return (
-          <div className="post">
+          <div
+            className="post"
+            onClick={() => {
+              // "navigate()": Navigate & Redirect current route to other routes
+              // "``": Backticks sign allows to add ID
+              // "${}": Allows to add JavaScript Variables
+              navigate(`/post/${value.id}`);
+            }}
+          >
             <div className="title">{value.title}</div>
             <div className="body">{value.postText}</div>
             <div className="footer">{value.username}</div>
@@ -37,3 +50,4 @@ function Home() {
 }
 
 export default Home;
+

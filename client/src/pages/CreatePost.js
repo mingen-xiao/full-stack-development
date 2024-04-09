@@ -3,6 +3,7 @@ import React from "react";
 //           (tell the user if they got a filed before submitting a form)
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const CreatePost = () => {
   //   To pass the values inside
@@ -25,7 +26,10 @@ const CreatePost = () => {
 
   //   To get the data from the form automatically when clicked
   const onSubmit = (data) => {
-    console.log(data);
+    axios.post("http://localhost:3001/posts", data).then((response) => {
+      // Set the list of posts = the response data from the API request
+        console.log("IT WORKED!");//   setListOfPosts(response.data); // To display data received into the application
+    });
   };
 
   return (
