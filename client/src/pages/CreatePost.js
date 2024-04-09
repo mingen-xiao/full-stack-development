@@ -4,8 +4,11 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
+  let navigate = useNavigate();
+
   //   To pass the values inside
   const initialValues = {
     title: "",
@@ -28,7 +31,7 @@ const CreatePost = () => {
   const onSubmit = (data) => {
     axios.post("http://localhost:3001/posts", data).then((response) => {
       // Set the list of posts = the response data from the API request
-        console.log("IT WORKED!");//   setListOfPosts(response.data); // To display data received into the application
+      navigate("/"); // To display data received into the application
     });
   };
 

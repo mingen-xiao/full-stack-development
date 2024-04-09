@@ -10,6 +10,14 @@ router.get("/", async (req, res) => {
   res.json(listOfPosts);
 });
 
+router.get("/byId/:id", async (req, res) => {
+  const id = req.params.id;
+  // "await": wait for the data to be returned
+  // ".findByPk(id)": find by the Primary Key
+  const post = await Posts.findByPk(id);
+  res.json(post);
+});
+
 // Asynchronous
 router.post("/", async (req, res) => {
   // Grab the post data from the 'body' that is sent in the request
