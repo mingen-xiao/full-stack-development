@@ -1,3 +1,4 @@
+// !!! Remember to "Drop Table" & "Refresh Database" first when everytime create a new Table !!!
 module.exports = (sequelize, DataTypes) => {
   const Posts = sequelize.define("Posts", {
     title: {
@@ -14,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  // Every "Post" can have many "Comments"!
   // "models": An argument that has access to all the models in the project
   Posts.associate = (models) => {
     Posts.hasMany(models.Comments, {  // "hasMany": A function in sequelize
