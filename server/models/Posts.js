@@ -14,5 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  // "models": An argument that has access to all the models in the project
+  Posts.associate = (models) => {
+    Posts.hasMany(models.Comments, {  // "hasMany": A function in sequelize
+      onDelete: "cascade",  // Once delete, will delete everything in that post
+    });
+  }
+
   return Posts;
 };
