@@ -31,6 +31,7 @@ function Home() {
         // "map": map all the data in every Post in the List
         return (
           <div
+            key={key}
             className="post"
             onClick={() => {
               // "navigate()": Navigate & Redirect current route to other routes
@@ -50,4 +51,3 @@ function Home() {
 }
 
 export default Home;
-

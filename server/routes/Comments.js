@@ -3,7 +3,7 @@ const router = express.Router();
 const { Comments } = require("../models");
 
 router.get("/:postId", async (req, res) => {
-  const postId = req.params.z;
+  const postId = req.params.postId;
   // "await": wait for the data to be returned
   // ".findByPk(id)": find by the Primary Key
   const comments = await Comments.findAll({ where: { PostId: postId } });
