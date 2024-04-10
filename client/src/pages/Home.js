@@ -23,7 +23,8 @@ function Home() {
       // Set the list of posts = the response data from the API request
       setListOfPosts(response.data); // To display data received into the application
     });
-  }, []);
+  }, []); // "[]": pass this dependency array so that it wont make the same API request every second
+  // Because "useEffect" will run when theres a change in the state of application or each state you put over here
 
   return (
     <div>
