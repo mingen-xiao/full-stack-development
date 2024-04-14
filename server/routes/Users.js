@@ -3,6 +3,8 @@ const router = express.Router();
 const { Users } = require("../models");
 const bcrypt = require("bcrypt");
 
+const { sign } = require("jsonwebtoken");
+
 // Need to use 'async...await...' when use 'sequelize'
 // Asynchronous
 router.post("/", async (req, res) => {
@@ -35,10 +37,15 @@ router.post("/login", async (req, res) => {
     //   "password": user used to try to login;
     //   "user.password": user's password stored in the database
     bcrypt.compare(password, user.password).then((match) => {
-      if (!match) return res.json({ error: "Wrong Username & Password Combination" });
+      if (!match)
+        return res.json({ error: "Wrong Username & Password Combination" });
 
+      const accessToekn = sign(
+        { username: user.username, id: user.id },
+        "importantsecret"
+      );
       // 返回完成反饋
-      return res.json("YOU LOGGED IN!");
+      return res.json(accessToekn);
     });
   } catch (error) {
     console.log("Bad Request", error);
