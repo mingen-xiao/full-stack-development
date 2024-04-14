@@ -21,11 +21,12 @@ const validateToken = (req, res, next) => {
   if (!accessToken) return res.json({ error: "User not logged in!" });
 
   try {
-    // verify the user by validating token
+    // verify the user and id by validating token
     const validToken = verify(accessToken, "importantsecret");
+    req.user = validToken;
     // if true, return the "next" function to get access
     if (validToken) {
-        return next();
+      return next();
     }
   } catch (err) {
     return res.json({ error: err });

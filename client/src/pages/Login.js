@@ -15,7 +15,7 @@ function Login() {
         // Make some validation middleware to the request and check if the user has a correct "jwt" stored in their session storage
         alert(response.data.error); // If theres error in the data, return "Alert"
       } else {
-        sessionStorage.setItem("accessToken", response.data); // Set the token and value of data into the "Application" in console.log
+        localStorage.setItem("accessToken", response.data); // Set the token and value of data into the "Application" in console.log
         navigate("/");
       }
     });

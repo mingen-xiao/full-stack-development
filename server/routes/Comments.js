@@ -11,10 +11,14 @@ router.get("/:postId", async (req, res) => {
   res.json(comments);
 });
 
-// "validateToken": Here means receive the request then go hrough the "middleware", 
+// "validateToken": Here means receive the request then go hrough the "middleware",
 // do all the checks that needs to see if the "token" is VALID, call "next" function is yes
 router.post("/", validateToken, async (req, res) => {
   const comment = req.body;
+  // Add comments when using corresponding users acc
+  const username = req.user.username;
+  // Show username in the database for the specific comments
+  comment.username = username;
   await Comments.create(comment);
   res.json(comment);
 });

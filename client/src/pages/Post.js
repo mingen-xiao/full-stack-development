@@ -32,7 +32,7 @@ function Post() {
         },
         {
           headers: {
-            accessToken: sessionStorage.getItem("accessToken"), // "accessToken": in AuthMiddleware.js file
+            accessToken: localStorage.getItem("accessToken"), // "accessToken": in AuthMiddleware.js file
           },
         }
       )
@@ -40,8 +40,8 @@ function Post() {
         if (response.data.error) {
           alert(response.data.error);
         } else {
-          // If need to assume the data has been automatically added to the database
-          const commentToAdd = { commentBody: newComment }; // Since each comment is an "Object" containing "postId" & "commentBody", and we only care "commentBody"
+          // If need to assume the data has been automatically added to the database with the corresponding username 
+          const commentToAdd = { commentBody: newComment, username: response.data.username }; // Since each comment is an "Object" containing "postId" & "commentBody", and we only care "commentBody"
           setComments([...comments, commentToAdd]); // Format: Array destructuring (Grab the content in the first index of the array and put into the second index)
           setNewComment(""); // To set the comment into an empty String after adding it, in order to clear the text bar
         }
@@ -75,6 +75,8 @@ function Post() {
             return (
               <div key={key} className="comment">
                 {comment.commentBody}
+                {/* Show the username after the comments */}
+                <label>Username: {comment.username}</label>
               </div>
             );
           })}
