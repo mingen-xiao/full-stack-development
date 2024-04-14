@@ -24,15 +24,27 @@ function Post() {
 
   const addComment = () => {
     axios
-      .post("http://localhost:3001/comments", {
-        commentBody: newComment,
-        PostId: id,
-      })
+      .post(
+        "http://localhost:3001/comments",
+        {
+          commentBody: newComment,
+          PostId: id,
+        },
+        {
+          headers: {
+            accessToken: sessionStorage.getItem("accessToken"), // "accessToken": in AuthMiddleware.js file
+          },
+        }
+      )
       .then((response) => {
-        // If need to assume the data has been automatically added to the database
-        const commentToAdd = { commentBody: newComment }; // Since each comment is an "Object" containing "postId" & "commentBody", and we only care "commentBody"
-        setComments([...comments, commentToAdd]); // Format: Array destructuring (Grab the content in the first index of the array and put into the second index)
-        setNewComment("");  // To set the comment into an empty String after adding it, in order to clear the text bar
+        if (response.data.error) {
+          alert(response.data.error);
+        } else {
+          // If need to assume the data has been automatically added to the database
+          const commentToAdd = { commentBody: newComment }; // Since each comment is an "Object" containing "postId" & "commentBody", and we only care "commentBody"
+          setComments([...comments, commentToAdd]); // Format: Array destructuring (Grab the content in the first index of the array and put into the second index)
+          setNewComment(""); // To set the comment into an empty String after adding it, in order to clear the text bar
+        }
       });
   };
 
@@ -51,7 +63,7 @@ function Post() {
           <input
             type="text"
             placeholder="Comment..."
-            value={newComment}  // To set the comment into an empty String after adding it, in order to clear the text bar
+            value={newComment} // To set the comment into an empty String after adding it, in order to clear the text bar
             onChange={(event) => {
               setNewComment(event.target.value);
             }}
