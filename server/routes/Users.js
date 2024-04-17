@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Users } = require("../models");
 const bcrypt = require("bcrypt");
-
+const { validateToken } = require("../middlewares/AuthMiddleware");
 const { sign } = require("jsonwebtoken");
 
 // Need to use 'async...await...' when use 'sequelize'
@@ -50,6 +50,10 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.log("Bad Request", error);
   }
+});
+
+router.get("/auth", validateToken, (req, res) => {
+  return res.json(req.user);
 });
 
 module.exports = router;
