@@ -42,11 +42,31 @@ function Post() {
         if (response.data.error) {
           alert(response.data.error);
         } else {
-          // If need to assume the data has been automatically added to the database with the corresponding username 
-          const commentToAdd = { commentBody: newComment, username: response.data.username }; // Since each comment is an "Object" containing "postId" & "commentBody", and we only care "commentBody"
+          // If need to assume the data has been automatically added to the database with the corresponding username
+          const commentToAdd = {
+            commentBody: newComment,
+            username: response.data.username,
+          }; // Since each comment is an "Object" containing "postId" & "commentBody", and we only care "commentBody"
           setComments([...comments, commentToAdd]); // Format: Array destructuring (Grab the content in the first index of the array and put into the second index)
           setNewComment(""); // To set the comment into an empty String after adding it, in order to clear the text bar
         }
+      });
+  };
+
+  const deleteComment = (id) => {
+    // "headers": passed by the "localStorage"
+    axios
+      .delete(`http://localhost:3001/comments/${id}`, {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then(() => {
+        // Filtering the "comments" list and remove the item that deleted
+        // In order to refresh the web page automatically
+        setComments(
+          comments.filter((val) => {
+            return val.id !== id;
+          })
+        );
       });
   };
 
@@ -80,7 +100,15 @@ function Post() {
                 {/* Show the username after the comments */}
                 <label>Username: {comment.username}</label>
                 {/* Only shows the "delete" button for those comments that written by the current logged in username */}
-                {authState.username === comment.username && <button>X</button>}
+                {authState.username === comment.username && (
+                  <button
+                    onClick={() => {
+                      deleteComment(comment.id);
+                    }}
+                  >
+                    X
+                  </button>
+                )}
               </div>
             );
           })}
