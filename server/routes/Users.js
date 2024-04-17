@@ -45,13 +45,15 @@ router.post("/login", async (req, res) => {
         "importantsecret"
       );
       // 返回完成反饋
-      return res.json(accessToekn);
+      // Not only return the token, but also username & id
+      return res.json({token: accessToekn, username: username, id: user.id});
     });
   } catch (error) {
     console.log("Bad Request", error);
   }
 });
 
+// To get information & return who (which user) os logged in
 router.get("/auth", validateToken, (req, res) => {
   return res.json(req.user);
 });

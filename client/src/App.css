@@ -28,6 +28,7 @@ body {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   cursor: pointer;
 }
+
 .post .title {
   flex: 20%;
   border-bottom: 1px solid lightgray;
@@ -65,6 +66,7 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .formContainer {
   display: flex;
   flex-direction: column;
@@ -119,6 +121,12 @@ span {
   margin-left: 20px;
   text-decoration: none;
   color: white;
+}
+
+.navbar button {
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
 }
 
 /* INDIVIDUAL POST */

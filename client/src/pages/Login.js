@@ -14,11 +14,13 @@ function Login() {
     const data = { username: username, password: password };
     axios.post("http://localhost:3001/auth/login", data).then((response) => {
       if (response.data.error) {
-        // Make some validation middleware to the request and check if the user has a correct "jwt" stored in their session storage
+        // Make some validation middleware to the request and check if the user has a correct "jwt" stored in their local/session storage
         alert(response.data.error); // If theres error in the data, return "Alert"
       } else {
-        localStorage.setItem("accessToken", response.data); // Set the token and value of data into the "Application" in console.log
-        setAuthState(true); // Changing a STATE to let system know
+        localStorage.setItem("accessToken", response.data.token); // Set the token and value of data into the "Application" in console.log
+        // Changing a STATE to let system know
+        // and automatically updated logged in username & id to the database and show immediately on the website
+        setAuthState({username: response.data.username, id: response.data.id, status: true});
         navigate("/");
       }
     });
