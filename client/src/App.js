@@ -55,28 +55,30 @@ function App() {
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Router>
           <div className="navbar">
-            <Link to="/">Home Page</Link>
-            <Link to="/createpost">Create A Post</Link>
-            {/* Since the STATE has changed in Login.js setAuthState(true),  */}
-            {/* it knows it's logged in & no need to display the Login & Registration buttons */}
-            {!authState.status ? (
-              <>
-                <Link to="/login">Login</Link>
-                <Link to="/registration">Registraion</Link>
-              </>
-            ) : (
-              // Log out button appeared when logged IN
-              <button onClick={logout}>Logout</button>
-            )}
-
-            <h1>{authState.username}</h1>
+            <div className="links">
+              <Link to="/">Home Page</Link>
+              <Link to="/createpost">Create A Post</Link>
+              {/* Since the STATE has changed in Login.js setAuthState(true),  */}
+              {/* it knows it's logged in & no need to display the Login & Registration buttons */}
+              {!authState.status && (
+                <>
+                  <Link to="/login">Login</Link>
+                  <Link to="/registration">Registraion</Link>
+                </>
+              )}
+            </div>
+            <div className="loggedInContainer">
+              <h1>{authState.username} </h1>
+              {/* Log out button appeared when logged IN */}
+              {authState.status && <button onClick={logout}> Logout</button>}
+            </div>
           </div>
           <Routes>
             {/* "/": The route for the main entry point of the website */}
             {/* "exact": To make never renders more than one route at the same time */}
             {/* "component": The component to render in this route */}
-            <Route path="/createpost" exact element={<CreatePost />} />
             <Route path="/" exact element={<Home />} />
+            <Route path="/createpost" exact element={<CreatePost />} />
             <Route path="/post/:id" exact element={<Post />} />
             <Route path="/login" exact element={<Login />} />
             <Route path="/registration" exact element={<Registraion />} />

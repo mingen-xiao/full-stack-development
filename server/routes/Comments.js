@@ -23,4 +23,11 @@ router.post("/", validateToken, async (req, res) => {
   res.json(comment);
 });
 
+// To delete the comment by the corresponding user, which means need to validate the user token
+router.delete("/:commentId", validateToken, async (req, res) => {
+  const commentId = req.params.commentId;
+  // Destroy the comment which has the id matched with the parsing id at above
+  Comments.destroy({ where: { id: commentId } });
+});
+
 module.exports = router;

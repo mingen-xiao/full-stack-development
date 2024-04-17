@@ -1,14 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 // A hook to get the params
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../helpers/AuthContext";
 
 function Post() {
   let { id } = useParams(); // To get the params, which is the (id)
   const [postObject, setPostObject] = useState({});
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const { authState } = useContext(AuthContext);
 
   // To fetch the data base on the ID
   useEffect(() => {
@@ -77,6 +79,8 @@ function Post() {
                 {comment.commentBody}
                 {/* Show the username after the comments */}
                 <label>Username: {comment.username}</label>
+                {/* Only shows the "delete" button for those comments that written by the current logged in username */}
+                {authState.username === comment.username && <button>X</button>}
               </div>
             );
           })}

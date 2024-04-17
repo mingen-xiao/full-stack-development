@@ -40,13 +40,13 @@ router.post("/login", async (req, res) => {
       if (!match)
         return res.json({ error: "Wrong Username & Password Combination" });
 
-      const accessToekn = sign(
+      const accessToken = sign(
         { username: user.username, id: user.id },
         "importantsecret"
       );
       // 返回完成反饋
       // Not only return the token, but also username & id
-      return res.json({token: accessToekn, username: username, id: user.id});
+      res.json({ token: accessToken, username: username, id: user.id });
     });
   } catch (error) {
     console.log("Bad Request", error);
@@ -55,7 +55,7 @@ router.post("/login", async (req, res) => {
 
 // To get information & return who (which user) os logged in
 router.get("/auth", validateToken, (req, res) => {
-  return res.json(req.user);
+  res.json(req.user);
 });
 
 module.exports = router;

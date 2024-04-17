@@ -20,7 +20,11 @@ function Login() {
         localStorage.setItem("accessToken", response.data.token); // Set the token and value of data into the "Application" in console.log
         // Changing a STATE to let system know
         // and automatically updated logged in username & id to the database and show immediately on the website
-        setAuthState({username: response.data.username, id: response.data.id, status: true});
+        setAuthState({
+          username: response.data.username,
+          id: response.data.id,
+          status: true,
+        });
         navigate("/");
       }
     });
