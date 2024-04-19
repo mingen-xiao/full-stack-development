@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
     Posts.hasMany(models.Comments, {  // "hasMany": A function in sequelize
       onDelete: "cascade",  // Once delete, will delete everything in that post
     });
+    Posts.hasMany(models.Likes, {  // "hasMany": A function in sequelize
+      onDelete: "cascade",  // Once delete, will delete everything in that post
+    });
   }
 
   return Posts;

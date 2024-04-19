@@ -26,24 +26,68 @@ function Home() {
   }, []); // "[]": pass this dependency array so that it wont make the same API request every second
   // Because "useEffect" will run when theres a change in the state of application or each state you put over here
 
+  const likeAPost = (postId) => {
+    axios
+      .post(
+        "http://localhost:3001/likes",
+        { PostId: postId },
+        // Parsing the "Token" as part of the "Header" to "Validate" in the back end
+        { headers: { accessToken: localStorage.getItem("accessToken") } }
+      )
+      .then((response) => {
+        // Update an object inside of the list and re-render the page
+        setListOfPosts(
+          listOfPosts.map((post) => {
+            if (post.id === postId) {
+              if (response.data.liked) {
+                return { ...post, Likes: [...post.Likes, 0] };
+              } else {
+                // copy the current existing array
+                const likesArray = post.Likes;
+                // "pop": remove the last element in an array
+                likesArray.pop();
+                // Unlike the post
+                return { ...post, Likes: likesArray };
+              }
+            } else {
+              return post;
+            }
+          })
+        );
+      });
+  };
+
   return (
     <div>
       {listOfPosts.map((value, key) => {
         // "map": map all the data in every Post in the List
         return (
-          <div
-            key={key}
-            className="post"
-            onClick={() => {
-              // "navigate()": Navigate & Redirect current route to other routes
-              // "``": Backticks sign allows to add ID
-              // "${}": Allows to add JavaScript Variables
-              navigate(`/post/${value.id}`);
-            }}
-          >
+          <div key={key} className="post">
             <div className="title">{value.title}</div>
-            <div className="body">{value.postText}</div>
-            <div className="footer">{value.username}</div>
+            <div
+              className="body"
+              onClick={() => {
+                // "navigate()": Navigate & Redirect current route to other routes
+                // "``": Backticks sign allows to add ID
+                // "${}": Allows to add JavaScript Variables
+                navigate(`/post/${value.id}`);
+              }}
+            >
+              {value.postText}
+            </div>
+            <div className="footer">
+              {/* "onClick": Makes each post will have different instance of the function parsing the argument "id" */}
+              {value.username}{" "}
+              <button
+                onClick={() => {
+                  likeAPost(value.id);
+                }}
+              >
+                Like
+              </button>
+              {/* Show the length value of the array storing and counting likes */}
+              <label>{value.Likes.length}</label>
+            </div>
           </div>
         );
       })}
@@ -52,3 +96,4 @@ function Home() {
 }
 
 export default Home;
+

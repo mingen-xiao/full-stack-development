@@ -1,5 +1,5 @@
 .App {
-  width: 100vw;
+  width: 100%;
   height: auto;
   display: flex;
   align-items: center;
@@ -28,7 +28,6 @@ body {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   cursor: pointer;
 }
-
 .post .title {
   flex: 20%;
   border-bottom: 1px solid lightgray;
@@ -66,7 +65,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
 .formContainer {
   display: flex;
   flex-direction: column;
@@ -116,7 +114,20 @@ span {
   align-items: center;
   font-family: Arial, Helvetica, sans-serif;
 }
+.navbar .links {
+  flex: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
 
+.navbar .loggedInContainer {
+  flex: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
 .navbar a {
   margin-left: 20px;
   text-decoration: none;
@@ -124,9 +135,18 @@ span {
 }
 
 .navbar button {
-  width: 150px;
+  width: 100px;
   height: 40px;
   cursor: pointer;
+  margin-right: 10px;
+  background-color: white;
+}
+
+.navbar h1 {
+  text-align: right;
+  margin-right: 10px;
+  color: white;
+  font-weight: lighter;
 }
 
 /* INDIVIDUAL POST */
