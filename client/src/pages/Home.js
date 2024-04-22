@@ -27,7 +27,11 @@ function Home() {
       .then((response) => {
         // Set the list of posts = the response data from the API request
         setListOfPosts(response.data.listOfPosts); // To display data received into the application
-        setLikedPosts(response.data.likedPosts);
+        setLikedPosts(
+          response.data.likedPosts.map((like) => {
+            return like.PostId;
+          })
+        );
       });
   }, []); // "[]": pass this dependency array so that it wont make the same API request every second
   // Because "useEffect" will run when theres a change in the state of application or each state you put over here
@@ -60,6 +64,19 @@ function Home() {
             }
           })
         );
+
+        // To update the colour changed of the LIKE button immediately with no need to refreshing
+        if (likedPosts.includes(postId)) {
+          setLikedPosts(
+            // "filter": onlt filt by the id and return it to not equal to postId (means UNLIKE the post)
+            likedPosts.filter((id) => {
+              return id !== postId;
+            })
+          );
+        } else {
+          // means LIKE the post
+          setLikedPosts([...likedPosts, postId]);
+        }
       });
   };
 
