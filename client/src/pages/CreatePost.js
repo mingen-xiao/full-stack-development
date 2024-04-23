@@ -20,6 +20,9 @@ const CreatePost = () => {
 
   // If not logged in, not able to see the "create a post", but redirect to "login"
   useEffect(() => {
+    // When refresh the page, it makes a request to ask if status is "false", will redirect to HOME page
+    // which cause rerender the page at the same time, so cannot use (!authState.status), 
+    // but validate by checking the "accessToken" from "localStorage"
     if (!localStorage.getItem("accessToken")) {
       navigate("/login");
     }

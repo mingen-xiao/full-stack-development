@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useContext } from "react";
 // A hook to get the params
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../helpers/AuthContext";
 
@@ -11,6 +11,8 @@ function Post() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const { authState } = useContext(AuthContext);
+
+  let navigate = useNavigate();
 
   // To fetch the data base on the ID
   useEffect(() => {
@@ -70,6 +72,18 @@ function Post() {
       });
   };
 
+  const deletePost = (id) => {
+    axios
+      .delete(`http://localhost:3001/posts/${id}`, {
+        // Pass the "accessToken" as part of the "headers" in this request to update changes in the front-end
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then(() => {
+        // When deleted, automatically redirect to the HOME page
+        navigate("/");
+      });
+  };
+
   return (
     <div className="postPage">
       <div className="leftSide">
@@ -77,7 +91,17 @@ function Post() {
           <div className="title">{postObject.title}</div>
           <div className="body">{postObject.postText}</div>
           <div className="footer">
-            {postObject.username} <button>Delete Post</button>
+            {/* check if the "username" for the post and for the user logged in is the same, to decide show delete button or not */}
+            {postObject.username}
+            {authState.username === postObject.username && (
+              <button
+                onClick={() => {
+                  deletePost(postObject.id);
+                }}
+              >
+                Delete Post
+              </button>
+            )}
           </div>
         </div>
       </div>

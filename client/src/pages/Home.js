@@ -19,10 +19,14 @@ function Home() {
 
   // "useEffect": To fetch all the lists of posts
   useEffect(() => {
-    if (!authState.status) {
+    // When refresh the page, it makes a request to ask if status is "false", will redirect to HOME page
+    // which cause rerender the page at the same time, so cannot use (!authState.status), 
+    // but validate by checking the "accessToken" from "localStorage"
+    if (!localStorage.getItem("accessToken")) {
       // If not logged in, redirect to "login" page when open "home" page
       navigate("/login");
-    } else {  // else, show everything as usual in "home" page
+    } else {
+      // else, show everything as usual in "home" page
       // Promise: run an anonymous function after receiving the data
       //  asynchronously, wait for the request to be done
       //  run the 'then' function inside, data received should be stored over here
