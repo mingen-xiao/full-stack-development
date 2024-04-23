@@ -5,7 +5,7 @@ import React, { useContext } from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 // "useNavigate": A hook to allow to navigate & redirect current route to other routes throughout the application
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import { AuthContext } from "../helpers/AuthContext";
 
@@ -20,7 +20,7 @@ function Home() {
   // "useEffect": To fetch all the lists of posts
   useEffect(() => {
     // When refresh the page, it makes a request to ask if status is "false", will redirect to HOME page
-    // which cause rerender the page at the same time, so cannot use (!authState.status), 
+    // which cause rerender the page at the same time, so cannot use (!authState.status),
     // but validate by checking the "accessToken" from "localStorage"
     if (!localStorage.getItem("accessToken")) {
       // If not logged in, redirect to "login" page when open "home" page
@@ -111,8 +111,9 @@ function Home() {
             </div>
             <div className="footer">
               <div className="username">
+                {/* "Link": Redirect to the "User Profile" when clicking the user name of the Posts */}
                 {/* "onClick": Makes each post will have different instance of the function parsing the argument "id" */}
-                {value.username}
+                <Link to={`/profile/${value.UserId}`}>{value.username}</Link>
               </div>
               <div className="buttons">
                 <ThumbUpAltIcon

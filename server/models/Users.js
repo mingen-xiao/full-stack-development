@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
       Users.hasMany(models.Likes, {  // "hasMany": A function in sequelize
         onDelete: "cascade",  // Once delete, will delete everything in that post
       });
+
+      // Create a "primary key" in the Table
+      Users.hasMany(models.Posts, {  // "hasMany": A function in sequelize
+        onDelete: "cascade",  // Once delete, will delete everything under that user
+      });
     }
   
     return Users;

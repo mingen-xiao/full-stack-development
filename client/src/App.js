@@ -6,6 +6,8 @@ import Post from "./pages/Post";
 import Login from "./pages/Login";
 import Registraion from "./pages/Registration";
 import PageNotFound from "./pages/PageNotFound";
+import Profile from "./pages/Profile";
+
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -59,7 +61,7 @@ function App() {
             <div className="links">
               {/* Since the STATE has changed in Login.js setAuthState(true),  */}
               {/* it knows it's logged in & no need to display the Login & Registration buttons */}
-              {!authState.status ? (  // Shows buttons separately BEFORE and AFTER "login"
+              {!authState.status ? ( // Shows buttons separately BEFORE and AFTER "login"
                 <>
                   <Link to="/login">Login</Link>
                   <Link to="/registration">Registraion</Link>
@@ -84,8 +86,9 @@ function App() {
             <Route path="/" exact element={<Home />} />
             <Route path="/createpost" exact element={<CreatePost />} />
             <Route path="/post/:id" exact element={<Post />} />
-            <Route path="/login" exact element={<Login />} />
             <Route path="/registration" exact element={<Registraion />} />
+            <Route path="/login" exact element={<Login />} />
+            <Route path="/profile/:id" exact element={<Profile />} />
             <Route path="*" exact Component={PageNotFound} />
           </Routes>
         </Router>
