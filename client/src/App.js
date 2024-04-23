@@ -57,14 +57,17 @@ function App() {
         <Router>
           <div className="navbar">
             <div className="links">
-              <Link to="/">Home Page</Link>
-              <Link to="/createpost">Create A Post</Link>
               {/* Since the STATE has changed in Login.js setAuthState(true),  */}
               {/* it knows it's logged in & no need to display the Login & Registration buttons */}
-              {!authState.status && (
+              {!authState.status ? (  // Shows buttons separately BEFORE and AFTER "login"
                 <>
                   <Link to="/login">Login</Link>
                   <Link to="/registration">Registraion</Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/">Home Page</Link>
+                  <Link to="/createpost">Create A Post</Link>
                 </>
               )}
             </div>
