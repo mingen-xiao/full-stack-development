@@ -84,12 +84,65 @@ function Post() {
       });
   };
 
+  const editPost = (option) => {
+    if (option === "title") {
+      // No matter what enterred when clicked title, stored in this
+      let newTitle = prompt("Enter New Title: ");
+      axios.put(
+        "http://localhost:3001/posts/title",
+        {
+          newTitle: newTitle,
+          id: id,
+        },
+        {
+          headers: { accessToken: localStorage.getItem("accessToken") },
+        }
+      );
+
+      // Automatically "refresh" the page when changed: Reamin everything same but the "title"
+      setPostObject({ ...postObject, title: newTitle });
+    } else {
+      // No matter what enterred when clicked text, stored in this
+      let newPostText = prompt("Enter New Text: ");
+      axios.put(
+        "http://localhost:3001/posts/postText",
+        {
+          newText: newPostText,
+          id: id,
+        },
+        {
+          headers: { accessToken: localStorage.getItem("accessToken") },
+        }
+      );
+
+      // Automatically "refresh" the page when changed: Reamin everything same but the "postText"
+      setPostObject({ ...postObject, postText: newPostText });
+    }
+  };
+
   return (
     <div className="postPage">
       <div className="leftSide">
         <div className="post" id="individual">
-          <div className="title">{postObject.title}</div>
-          <div className="body">{postObject.postText}</div>
+          <div
+            className="title"
+            onClick={() => {
+              // Will not execute if user not logged in or not the editable user
+              if (authState.username === postObject.username) {
+                editPost("title");
+              }
+            }}
+          >
+            {postObject.title}
+          </div>
+          <div
+            className="body"
+            onClick={() => {
+              editPost("body");
+            }}
+          >
+            {postObject.postText}
+          </div>
           <div className="footer">
             {/* check if the "username" for the post and for the user logged in is the same, to decide show delete button or not */}
             {postObject.username}

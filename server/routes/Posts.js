@@ -47,6 +47,30 @@ router.post("/", validateToken, async (req, res) => {
   res.json(post);
 });
 
+// Asynchronous
+router.put("/title", validateToken, async (req, res) => {
+  // Grab the post data from the 'body' that is sent in the request
+  // 拿到請求的數據
+  const { newTitle, id } = req.body;
+  // Asynchronous 異步: Wait for and make sure the data to be inserted before moving forward (with the request or anything else)
+  // 把拿到的數據創建到Posts這個數據庫裏
+  await Posts.update({ title: newTitle }, { where: { id: id } });
+  // 返回完成反饋
+  res.json(newTitle);
+});
+
+// Asynchronous
+router.put("/postText", validateToken, async (req, res) => {
+  // Grab the post data from the 'body' that is sent in the request
+  // 拿到請求的數據
+  const { newText, id } = req.body;
+  // Asynchronous 異步: Wait for and make sure the data to be inserted before moving forward (with the request or anything else)
+  // 把拿到的數據創建到Posts這個數據庫裏
+  await Posts.update({ postText: newText }, { where: { id: id } }); // Add this new post into the database
+  // 返回完成反饋
+  res.json(newText);
+});
+
 router.delete("/:postId", validateToken, async (req, res) => {
   const postId = req.params.postId;
   await Posts.destroy({ where: { id: postId } });
