@@ -84,7 +84,8 @@ function App() {
             )}
           </div>
           <div className="loggedInContainer">
-            <h1>{authState.username} </h1>
+            {/* Not showing the username anymore when logged out */}
+            {authState.status ? <h1>{authState.username}</h1> : ""}
             {/* Log out button appeared when logged IN */}
             {authState.status && <button onClick={logout}> Logout</button>}
           </div>
