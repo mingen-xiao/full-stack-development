@@ -71,4 +71,31 @@ router.get("/basicinfo/:id", async (req, res) => {
   res.json(basicInfo);
 });
 
+// STEP 6
+// Change the password
+router.put("/changepassword", validateToken, async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  const user = await Users.findOne({ where: { username: req.user.username } });
+
+  //   Check if the editor knows the old password before changing to new password
+  bcrypt.compare(oldPassword, user.password).then((match) => {
+    if (!match) return res.json({ error: "Wrong Password Entered!" });
+
+    //   If entered old password correctly, generate new "hash number" for the new password
+    //   "bcrypt": This library in "npm" allows to hash the contents like Strings (Turns the password into a random String of letters and numbers)
+    //   "Hashing": A one-way function so even if someone get the hashed password he wont know the exact password
+    //   The only way is to "Hash" the String again and compare hashed values to check if are the SAME Strings
+    bcrypt.hash(newPassword, 10).then((hash) => {
+      // "update({a}, {b})": a (what changes to update); b (when to update the request)
+      // No need to aysnc...await... because not waiting anything
+      Users.update(
+        { password: hash },
+        { where: { username: req.user.username } }
+      );
+      // 返回完成反饋
+      res.json("SUCCESS");
+    });
+  });
+});
+
 module.exports = router;
